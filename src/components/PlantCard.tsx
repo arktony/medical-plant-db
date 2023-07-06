@@ -1,14 +1,9 @@
-import React from "react";
 import { IPlant } from "../hooks/usePlants";
+import { Navigate, Link } from "react-router-dom";
 import {
-  Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
-  CardFooter,
-  Divider,
-  HStack,
   Heading,
   Image,
   Stack,
@@ -19,20 +14,22 @@ interface Props {
 }
 const PlantCard = ({ plant }: Props) => {
   return (
-    <Card borderRadius={8} overflow="hidden">
-      <Image src={`data:` + plant.type + `;base64,` + plant.picByte} />
-      <CardBody>
-        <Stack mt="3" spacing="3">
-          <Heading size="md">
-            {plant.englishName + " / " + plant.scientificName}
-          </Heading>
-          <Text>{plant.narration}</Text>
-        </Stack>
-      </CardBody>
-      <Button size="sm" variant="ghost" colorScheme="green">
-        Read More...
-      </Button>
-    </Card>
+    <>
+      <Card borderRadius={8} overflow="hidden">
+        <Link to={`/plant/${plant.id}`}>
+          <Image src={`data:` + plant.type + `;base64,` + plant.picByte} />
+          <CardBody>
+            <Stack mt="3" spacing="3">
+              <Heading size="md">
+                {plant.englishName + " / " + plant.scientificName}
+              </Heading>
+
+              <Text>{plant.narration}</Text>
+            </Stack>
+          </CardBody>
+        </Link>
+      </Card>
+    </>
   );
 };
 

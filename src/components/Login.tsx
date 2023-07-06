@@ -25,7 +25,7 @@ const Login = ({ history }: any) => {
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
 
-  const LOGIN_URL = "http://localhost:8080/api/auth/handshake";
+  const LOGIN_URL = "http://142.93.175.111/api/v1/handshake";
 
   const userRef = useRef<HTMLInputElement>(null);
   const errRef = useRef(null);
@@ -59,7 +59,6 @@ const Login = ({ history }: any) => {
       );
 
       console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
 
       const jwt = response?.data?.jwt;
       const message = response?.data?.statusCode;

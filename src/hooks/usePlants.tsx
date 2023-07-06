@@ -20,12 +20,11 @@ const usePlants = () => {
   const [plants, setPlants]: [IPlant[], (posts: IPlant[]) => void] =
     React.useState(defaultPosts);
   const [error, setErro] = React.useState("");
-  const [imgUrl, setImgUrl] = React.useState<ImageData[]>();
 
   React.useEffect(() => {
     const controller = new AbortController();
     axios
-      .get<IPlant[]>("http://localhost:8080/api/v1/plants", {
+      .get<IPlant[]>("http://142.93.175.111/api/v1/plants", {
         signal: controller.signal,
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 
 const SearchInput = () => {
   return (

@@ -4,9 +4,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
   HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
@@ -18,7 +16,7 @@ import {
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 const Admin = () => {
   const { register, handleSubmit } = useForm();
 
@@ -32,10 +30,18 @@ const Admin = () => {
   const [file, setFile] = useState<File>();
   const [message, setMessage] = useState();
 
-  const DATA_URL = "http://localhost:8080/api/v1/addNewPlant";
+  const familyRef = useRef<HTMLInputElement>(null);
+  const englishNameRef = useRef<HTMLInputElement>(null);
+  const scientificNameRef = useRef<HTMLInputElement>(null);
+  const localNameRef = useRef<HTMLInputElement>(null);
+  const genusRef = useRef<HTMLInputElement>(null);
+  const diseaseRef = useRef<HTMLInputElement>(null);
+  const narrationRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLInputElement>(null);
+
+  const DATA_URL = "http://142.93.175.111/api/v1/addNewPlant";
   const { auth }: any = useAuth();
   const authorizer = "Bearer " + auth?.jwt;
-
   const putImageContest = (files: FileList | null) => {
     if (files) {
       const fileRef = files[0] || null;
@@ -69,17 +75,19 @@ const Admin = () => {
         )
         .then((response) => {
           setMessage(response.data.message);
+          if (response.data.message == "Plant Saved Successfully") {
+            familyRef.current == null;
+            englishNameRef.current == null;
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
         });
-      console.log(response);
     } catch (error) {}
   };
 
   return (
     <>
-      <Box backgroundColor="green.300">
-        <Text fontWeight="bold">{message}</Text>
-      </Box>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <Flex
           minH={"100vh"}
@@ -88,9 +96,12 @@ const Admin = () => {
           bg={useColorModeValue("gray.50", "gray.800")}
         >
           <Stack spacing={8} mx={"auto"} maxW={"xlg"} py={12} px={6}>
+            <Box backgroundColor="green.300" alignItems="Center">
+              <Text fontWeight="bold">{message}</Text>
+            </Box>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
-                Add New Medicinal Plant.
+                New Medicinal Plant.
               </Heading>
               <Text fontSize={"lg"} color={"gray.600"}>
                 Note: All fields are mandatory.
@@ -106,7 +117,8 @@ const Admin = () => {
                 <FormControl id="family" isRequired>
                   <FormLabel>Plant Family</FormLabel>
                   <Input
-                    // {...register("family", { required: true })}
+                    value={family}
+                    ref={familyRef}
                     onChange={(e) => setFamily(e.target.value)}
                     type="text"
                   />
@@ -116,7 +128,7 @@ const Admin = () => {
                     <FormControl id="engName" isRequired>
                       <FormLabel>English Name</FormLabel>
                       <Input
-                        // {...register("englishName", { required: true })}
+                        ref={englishNameRef}
                         onChange={(e) => setEnglishName(e.target.value)}
                         type="text"
                       />
@@ -126,7 +138,7 @@ const Admin = () => {
                     <FormControl id="sciName" isRequired>
                       <FormLabel>Scientific Name</FormLabel>
                       <Input
-                        // {...register("scientificName", { required: true })}
+                        ref={scientificNameRef}
                         onChange={(e) => setScientificName(e.target.value)}
                         type="text"
                       />
@@ -136,7 +148,7 @@ const Admin = () => {
                     <FormControl id="localName" isRequired>
                       <FormLabel>Local Name</FormLabel>
                       <Input
-                        // {...register("localName", { required: true })}
+                        ref={localNameRef}
                         onChange={(e) => setLocalName(e.target.value)}
                         type="text"
                       />
@@ -148,7 +160,7 @@ const Admin = () => {
                     <FormControl id="genus" isRequired>
                       <FormLabel>Genus</FormLabel>
                       <Input
-                        // {...register("genus", { required: true })}
+                        ref={genusRef}
                         onChange={(e) => setGenus(e.target.value)}
                         type="text"
                       />
@@ -158,7 +170,7 @@ const Admin = () => {
                     <FormControl id="disease" isRequired>
                       <FormLabel>Diseases Cured</FormLabel>
                       <Input
-                        // {...register("disease", { required: true })}
+                        ref={diseaseRef}
                         onChange={(e) => setDisease(e.target.value)}
                         placeholder="Seperate with comma,"
                         type="text"
@@ -169,7 +181,7 @@ const Admin = () => {
                     <FormControl id="narration" isRequired>
                       <FormLabel>Narration</FormLabel>
                       <Input
-                        // {...register("narration", { required: true })}
+                        ref={narrationRef}
                         onChange={(e) => setNarration(e.target.value)}
                         type="text"
                       />
@@ -180,7 +192,6 @@ const Admin = () => {
                   <FormControl id="image" isRequired>
                     <FormLabel>Plant Image</FormLabel>
                     <Input
-                      // {...register("imageFile", { required: true })}
                       type="file"
                       onChange={(e) => putImageContest(e.target.files)}
                     />

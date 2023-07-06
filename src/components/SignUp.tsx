@@ -41,7 +41,7 @@ const SignUp = () => {
     phone: phone,
   };
 
-  const REGISTER_URL = "http://localhost:8080/api/register/signup";
+  const REGISTER_URL = "http://142.93.175.111/api/v1/register/signup";
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
